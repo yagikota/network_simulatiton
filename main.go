@@ -1,63 +1,57 @@
 package main
 
 import (
-	"math"
+	"fmt"
 	"math/rand"
+	"sort"
 	"time"
+
+	"github.com/yagikota/network_simulation/handler"
+	"github.com/yagikota/network_simulation/model"
 )
-
-type eventType int
-
-const (
-	endSimulation eventType = iota // 0
-	arrivePacket                   // 1
-	endService                     // 2
-)
-
-type inputParam struct {
-	Lambda float64
-	Myu    float64
-	K      int
-}
-
-type eventsTable struct {
-	Events []*event
-}
-
-type event struct {
-	eventType eventType
-	startTime time.Time
-	otherInfo otherInfo
-}
-
-type otherInfo struct {
-}
-
-func initInputParam() inputParam {
-	return inputParam{
-		Lambda: 0.2, // 0.2
-		Myu:    0.3, // 0.3
-		K:      50,  // 50
-	}
-}
-
-func expRand(lambda float64) float64 {
-	return math.Log(1.0 - rand.Float64()/lambda)
-}
 
 func main() {
+	// ----- initialization -----
 	rand.Seed(time.Now().UnixNano())
-
+	simulationConf := model.NewSimulationConfig()
 	// 最初のイベントを事象表に登録
-	firstEvent := &event{
-		eventType: 1,
-		startTime: time.Now(),
-	}
-	eventsTable := new(eventsTable)
+	firstEvent := model.NewEvent(model.EventType(1))
+	eventsTable := new(model.EventsTable)
 	eventsTable.Events = append(eventsTable.Events, firstEvent)
-
+	// test用
+	secondEvent := model.NewEvent(model.EventType(2))
+	eventsTable.Events = append(eventsTable.Events, secondEvent)
 	// 待ち行列を用意
-	var queue []*event
+	queue := model.NewQueue(simulationConf.K)
 
-	// TODO: シミュレーション開始
+	server := model.NewServer()
+	// ----- start simulation -----
+	for {
+		if len(eventsTable.Events) == 0 {
+			fmt.Println("finish simulation")
+			break
+		}
+		sort.Slice(eventsTable.Events, func(i, j int) bool {
+			return eventsTable.Events[i].StartTime.After(eventsTable.Events[j].StartTime)
+		})
+		// eventsTable.Events
+		currEvent := eventsTable.Events[0]
+		eventsTable.Events = eventsTable.Events[1:]
+
+		currentTime := currEvent.StartTime
+
+		switch currEvent.EventType {
+		case model.ArrivePacket:
+			fmt.Println("arrive a packet")
+			handler.ArriveHandler(eventsTable, queue, server, simulationConf)
+		case model.FinishService:
+			fmt.Println("end service")
+			handler.FinishHandler(eventsTable, queue, server, simulationConf)
+		}
+		if currentTime.After(simulationConf.EndTime) {
+			// 終了処理
+			fmt.Println("finish simulation")
+			break
+		}
+	}
 }

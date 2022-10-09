@@ -15,3 +15,4 @@
 * [ケンドールの記号](https://ja.wikipedia.org/wiki/%E3%82%B1%E3%83%B3%E3%83%89%E3%83%BC%E3%83%AB%E3%81%AE%E8%A8%98%E5%8F%B7)
 * https://qiita.com/SaitoTsutomu/items/f67c7e9f98dd27d94608
 * https://ie.u-ryukyu.ac.jp/~asharif/pukiwiki/attach/%E3%82%B7%E3%83%9F%E3%83%A5%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3_mm1.pdf
+* http://www.it-shikaku.jp/top30.php?hidari=01-02-06.php&migi=km01-02.php
