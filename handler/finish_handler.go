@@ -7,9 +7,7 @@ import (
 
 func FinishHandler(currentEvent *model.Event, table *model.EventsTable, queue *model.Queue, s *model.Server, sConf *model.SimulationConfig, counter *model.Counter) {
 	if queue.IsEmpty() {
-		// make server idle
-		s.InUse -= 1
-		s.Idle += 1
+		s.Free(1)
 		return
 	}
 

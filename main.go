@@ -17,10 +17,10 @@ func main() {
 	simulationConf := model.NewSimulationConfig()
 	// register the first event on table.
 	eventsTable := new(model.EventsTable)
-	firstEvent := model.NewEvent(model.EventType(1), 0.0)
+	firstEvent := model.NewEvent(model.ArrivePacket, 0.0)
 	eventsTable.Events = append(eventsTable.Events, firstEvent)
 	queue := model.NewQueue(simulationConf.K)
-	server := model.NewServer()
+	server := model.NewServer(1)
 	counter := model.NewCounter()
 	// ----- END initialization -----
 

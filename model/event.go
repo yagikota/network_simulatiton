@@ -26,6 +26,7 @@ func NewEvent(eventType EventType, time float64) *Event {
 	}
 }
 
+// Add adds event into queue.
 func (t *EventsTable) AddEvent(e EventType, st float64) {
 	event := &Event{
 		EventType: e,
@@ -34,10 +35,12 @@ func (t *EventsTable) AddEvent(e EventType, st float64) {
 	t.Events = append(t.Events, event)
 }
 
+// IsEmpty returns true if the event table is empty.
 func (q *EventsTable) IsEmpty() bool {
 	return len(q.Events) == 0
 }
 
+// Peek removes an event from the left side of the event table and returns the event.
 func (t *EventsTable) Peek() *Event {
 	if t.IsEmpty() {
 		return nil

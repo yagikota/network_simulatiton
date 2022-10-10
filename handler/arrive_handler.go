@@ -14,8 +14,7 @@ func ArriveHandler(currentEvent *model.Event, table *model.EventsTable, queue *m
 
 	if !s.IsBusy() {
 		// make the server busy
-		s.InUse += 1
-		s.Idle -= 1
+		s.Use(1)
 		table.AddEvent(model.FinishService, currentEvent.StartTime+utils.ExpRand(sConf.Lambda))
 		return
 	}

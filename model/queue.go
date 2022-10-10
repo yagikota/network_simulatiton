@@ -11,14 +11,17 @@ func NewQueue(cap int) *Queue {
 	}
 }
 
+// Add adds event into queue.
 func (q *Queue) Add(eventType EventType, time float64) {
 	q.Data = append(q.Data, NewEvent(eventType, time))
 }
 
+// IsEmpty returns true if the queue is empty.
 func (q *Queue) IsEmpty() bool {
 	return len(q.Data) == 0
 }
 
+// Peek removes an event from the left side of the queue and returns the event.
 func (q *Queue) Peek() *Event {
 	if q.IsEmpty() {
 		return nil
