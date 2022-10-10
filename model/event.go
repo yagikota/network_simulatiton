@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 type EventType int
 
 const (
@@ -18,20 +16,33 @@ type EventsTable struct {
 
 type Event struct {
 	EventType EventType
-	StartTime time.Time
+	StartTime float64
 }
 
-func NewEvent(t EventType) *Event {
+func NewEvent(etype EventType, time float64) *Event {
 	return &Event{
-		EventType: t,
-		StartTime: time.Now(),
+		EventType: etype,
+		StartTime: time,
 	}
 }
 
-func (t *EventsTable) AddEvent(e EventType, st time.Time) {
+func (t *EventsTable) AddEvent(e EventType, st float64) {
 	event := &Event{
 		EventType: e,
 		StartTime: st,
 	}
 	t.Events = append(t.Events, event)
+}
+
+func (q *EventsTable) IsEmpty() bool {
+	return len(q.Events) == 0
+}
+
+func (t *EventsTable) Peek() *Event {
+	if t.IsEmpty() {
+		return nil
+	}
+	e := t.Events[0]
+	t.Events = t.Events[1:]
+	return e
 }

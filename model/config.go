@@ -1,13 +1,11 @@
 package model
 
-import "time"
-
 type SimulationConfig struct {
 	Lambda    float64
 	Myu       float64
 	K         int
-	StartTime time.Time
-	EndTime   time.Time
+	StartTime float64
+	EndTime   float64
 }
 
 func NewSimulationConfig() *SimulationConfig {
@@ -15,8 +13,8 @@ func NewSimulationConfig() *SimulationConfig {
 		Lambda:    0.2, // 0.2
 		Myu:       0.3, // 0.3
 		K:         50,  // 50
-		StartTime: time.Now(),
+		StartTime: 0.0,
 	}
-	conf.EndTime = conf.StartTime.Add(10 * time.Second)
+	conf.EndTime = conf.StartTime + 1000.0
 	return conf
 }

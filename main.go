@@ -10,46 +10,46 @@ import (
 	"github.com/yagikota/network_simulation/model"
 )
 
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
 func main() {
 	// ----- initialization -----
-	rand.Seed(time.Now().UnixNano())
 	simulationConf := model.NewSimulationConfig()
-	// 最初のイベントを事象表に登録
-	firstEvent := model.NewEvent(model.EventType(1))
+	// register the first event on table.
 	eventsTable := new(model.EventsTable)
+	firstEvent := model.NewEvent(model.EventType(1), 0.0)
 	eventsTable.Events = append(eventsTable.Events, firstEvent)
 	// test用
-	secondEvent := model.NewEvent(model.EventType(2))
+	secondEvent := model.NewEvent(model.EventType(2), 1.0)
 	eventsTable.Events = append(eventsTable.Events, secondEvent)
-	// 待ち行列を用意
 	queue := model.NewQueue(simulationConf.K)
-
 	server := model.NewServer()
+
 	// ----- start simulation -----
 	for {
-		if len(eventsTable.Events) == 0 {
+		// pop the event of the nearest future
+		if eventsTable.IsEmpty() {
 			fmt.Println("finish simulation")
 			break
 		}
 		sort.Slice(eventsTable.Events, func(i, j int) bool {
-			return eventsTable.Events[i].StartTime.After(eventsTable.Events[j].StartTime)
+			return eventsTable.Events[i].StartTime < eventsTable.Events[j].StartTime
 		})
-		// eventsTable.Events
-		currEvent := eventsTable.Events[0]
-		eventsTable.Events = eventsTable.Events[1:]
+		currentEvent := eventsTable.Peek()
 
-		currentTime := currEvent.StartTime
 
-		switch currEvent.EventType {
+
+		switch currentEvent.EventType {
 		case model.ArrivePacket:
 			fmt.Println("arrive a packet")
-			handler.ArriveHandler(eventsTable, queue, server, simulationConf)
+			handler.ArriveHandler(currentEvent, eventsTable, queue, server, simulationConf)
 		case model.FinishService:
 			fmt.Println("end service")
-			handler.FinishHandler(eventsTable, queue, server, simulationConf)
+			handler.FinishHandler(currentEvent, eventsTable, queue, server, simulationConf)
 		}
-		if currentTime.After(simulationConf.EndTime) {
-			// 終了処理
+		if currentEvent.StartTime > simulationConf.EndTime {
 			fmt.Println("finish simulation")
 			break
 		}

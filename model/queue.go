@@ -11,8 +11,8 @@ func NewQueue(cap int) *Queue {
 	}
 }
 
-func (q *Queue) Add(t EventType) {
-	q.Data = append(q.Data, NewEvent(t))
+func (q *Queue) Add(etype EventType, time float64) {
+	q.Data = append(q.Data, NewEvent(etype, time))
 }
 
 func (q *Queue) IsEmpty() bool {

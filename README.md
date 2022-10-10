@@ -16,3 +16,5 @@
 * https://qiita.com/SaitoTsutomu/items/f67c7e9f98dd27d94608
 * https://ie.u-ryukyu.ac.jp/~asharif/pukiwiki/attach/%E3%82%B7%E3%83%9F%E3%83%A5%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3_mm1.pdf
 * http://www.it-shikaku.jp/top30.php?hidari=01-02-06.php&migi=km01-02.php
+* http://www.bunkyo.ac.jp/~nemoto/lecture/seisan/2001/queue1.pdf
+* https://www.cis.nagasaki-u.ac.jp/labs/oguri/CompSimExm.pdf
