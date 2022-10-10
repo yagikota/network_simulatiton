@@ -22,12 +22,15 @@ func main() {
 	firstEvent := model.NewEvent(model.EventType(1), 0.0)
 	eventsTable.Events = append(eventsTable.Events, firstEvent)
 	// test用
-	secondEvent := model.NewEvent(model.EventType(2), 1.0)
-	eventsTable.Events = append(eventsTable.Events, secondEvent)
+	// secondEvent := model.NewEvent(model.EventType(2), 10.0)
+	// eventsTable.Events = append(eventsTable.Events, secondEvent)
 	queue := model.NewQueue(simulationConf.K)
 	server := model.NewServer()
 
+	counter := model.NewCounter()
+
 	// ----- start simulation -----
+	var currentEvent *model.Event
 	for {
 		// pop the event of the nearest future
 		if eventsTable.IsEmpty() {
@@ -37,21 +40,33 @@ func main() {
 		sort.Slice(eventsTable.Events, func(i, j int) bool {
 			return eventsTable.Events[i].StartTime < eventsTable.Events[j].StartTime
 		})
-		currentEvent := eventsTable.Peek()
-
-
-
-		switch currentEvent.EventType {
-		case model.ArrivePacket:
-			fmt.Println("arrive a packet")
-			handler.ArriveHandler(currentEvent, eventsTable, queue, server, simulationConf)
-		case model.FinishService:
-			fmt.Println("end service")
-			handler.FinishHandler(currentEvent, eventsTable, queue, server, simulationConf)
-		}
+		currentEvent = eventsTable.Peek()
 		if currentEvent.StartTime > simulationConf.EndTime {
 			fmt.Println("finish simulation")
 			break
 		}
+
+		switch currentEvent.EventType {
+		case model.ArrivePacket:
+			fmt.Println("arrive a packet")
+			handler.ArriveHandler(currentEvent, eventsTable, queue, server, simulationConf, counter)
+		case model.FinishService:
+			fmt.Println("end service")
+			handler.FinishHandler(currentEvent, eventsTable, queue, server, simulationConf, counter)
+		}
 	}
+
+	// report
+	tqt := counter.TotalQueueTime
+	l := tqt / currentEvent.StartTime
+	fmt.Println("average packets numbers in queue")
+	fmt.Println(l)
+
+	w := tqt / float64(counter.TotalQueueNum)
+	fmt.Println("average delay of packets in queue")
+	fmt.Println(w)
+
+	plr := counter.PacketLossNum / counter.PacketNum
+	fmt.Println("packets loss rate")
+	fmt.Println(plr)
 }

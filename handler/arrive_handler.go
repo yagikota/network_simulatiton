@@ -7,7 +7,8 @@ import (
 	"github.com/yagikota/network_simulation/utils"
 )
 
-func ArriveHandler(currentEvent *model.Event, table *model.EventsTable, queue *model.Queue, s *model.Server, sConf *model.SimulationConfig) {
+func ArriveHandler(currentEvent *model.Event, table *model.EventsTable, queue *model.Queue, s *model.Server, sConf *model.SimulationConfig, counter *model.Counter) {
+	counter.PacketNum += 1
 	// next arrive event
 	table.AddEvent(model.ArrivePacket, currentEvent.StartTime+utils.ExpRand(sConf.Lambda))
 
@@ -21,8 +22,9 @@ func ArriveHandler(currentEvent *model.Event, table *model.EventsTable, queue *m
 
 	if len(queue.Data) > sConf.K {
 		fmt.Println("packet loss")
-		// TODO: パケットロスカウント
+		counter.PacketLossNum += 1
 		return
 	}
 	queue.Add(model.ArrivePacket, currentEvent.StartTime)
+	counter.TotalQueueNum += 1
 }

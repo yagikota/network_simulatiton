@@ -19,9 +19,9 @@ type Event struct {
 	StartTime float64
 }
 
-func NewEvent(etype EventType, time float64) *Event {
+func NewEvent(eventType EventType, time float64) *Event {
 	return &Event{
-		EventType: etype,
+		EventType: eventType,
 		StartTime: time,
 	}
 }
