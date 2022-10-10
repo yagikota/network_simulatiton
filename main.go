@@ -10,26 +10,21 @@ import (
 	"github.com/yagikota/network_simulation/model"
 )
 
-func init() {
-	rand.Seed(time.Now().UnixNano())
-}
-
 func main() {
-	// ----- initialization -----
+	rand.Seed(time.Now().UnixNano())
+
+	// ----- BEGIN initialization -----
 	simulationConf := model.NewSimulationConfig()
 	// register the first event on table.
 	eventsTable := new(model.EventsTable)
 	firstEvent := model.NewEvent(model.EventType(1), 0.0)
 	eventsTable.Events = append(eventsTable.Events, firstEvent)
-	// test用
-	// secondEvent := model.NewEvent(model.EventType(2), 10.0)
-	// eventsTable.Events = append(eventsTable.Events, secondEvent)
 	queue := model.NewQueue(simulationConf.K)
 	server := model.NewServer()
-
 	counter := model.NewCounter()
+	// ----- END initialization -----
 
-	// ----- start simulation -----
+	// ----- BEGIN simulation -----
 	var currentEvent *model.Event
 	for {
 		// pop the event of the nearest future
@@ -55,18 +50,18 @@ func main() {
 			handler.FinishHandler(currentEvent, eventsTable, queue, server, simulationConf, counter)
 		}
 	}
+	// ----- END simulation -----
 
-	// report
+	// ----- BEGIN report -----
 	tqt := counter.TotalQueueTime
 	l := tqt / currentEvent.StartTime
 	fmt.Println("average packets numbers in queue")
 	fmt.Println(l)
-
 	w := tqt / float64(counter.TotalQueueNum)
 	fmt.Println("average delay of packets in queue")
 	fmt.Println(w)
-
 	plr := counter.PacketLossNum / counter.PacketNum
 	fmt.Println("packets loss rate")
 	fmt.Println(plr)
+	// ----- END report -----
 }

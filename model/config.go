@@ -1,11 +1,12 @@
 package model
 
+// The input parameters for the simulation.
 type SimulationConfig struct {
-	Lambda    float64
-	Myu       float64
-	K         int
-	StartTime float64
-	EndTime   float64
+	Lambda    float64 // Average arrival rate of a packet.
+	Myu       float64 // Average service rate of the server
+	K         int     // Capacity of queue.
+	StartTime float64 // The start time of the simulation.
+	EndTime   float64 // The end time of the simulation.
 }
 
 func NewSimulationConfig() *SimulationConfig {
