@@ -19,8 +19,8 @@ func main() {
 	eventsTable := new(model.EventsTable)
 	firstEvent := model.NewEvent(model.ArrivePacket, 0.0)
 	eventsTable.Events = append(eventsTable.Events, firstEvent)
-	queue := model.NewQueue(simulationConf.K)
 	server := model.NewServer(1)
+	queue := model.NewQueue(simulationConf.K - server.Capacity)
 	counter := model.NewCounter()
 	// ----- END initialization -----
 
@@ -36,6 +36,7 @@ func main() {
 			return eventsTable.Events[i].StartTime < eventsTable.Events[j].StartTime
 		})
 		currentEvent = eventsTable.Peek()
+
 		if currentEvent.StartTime > simulationConf.EndTime {
 			fmt.Println("finish simulation")
 			break

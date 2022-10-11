@@ -4,7 +4,7 @@ package model
 type SimulationConfig struct {
 	Lambda    float64 // Average arrival rate of a packet.
 	Myu       float64 // Average service rate of the server
-	K         int     // Capacity of queue.
+	K         int     // Capacity of service(capacity of queue and server).
 	StartTime float64 // The start time of the simulation.
 	EndTime   float64 // The end time of the simulation.
 }

@@ -27,10 +27,10 @@ func NewEvent(eventType EventType, time float64) *Event {
 }
 
 // Add adds event into queue.
-func (t *EventsTable) AddEvent(e EventType, st float64) {
+func (t *EventsTable) AddEvent(e EventType, time float64) {
 	event := &Event{
 		EventType: e,
-		StartTime: st,
+		StartTime: time,
 	}
 	t.Events = append(t.Events, event)
 }

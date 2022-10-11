@@ -2,12 +2,14 @@ package model
 
 // https://fodor.org/blog/go-queue-and-stack/
 type Queue struct {
-	Data []*Event
+	Data     []*Event
+	Capacity int
 }
 
 func NewQueue(cap int) *Queue {
 	return &Queue{
-		Data: make([]*Event, 0, cap),
+		Data:     make([]*Event, 0, cap),
+		Capacity: cap,
 	}
 }
 

@@ -19,7 +19,7 @@ func ArriveHandler(currentEvent *model.Event, table *model.EventsTable, queue *m
 		return
 	}
 
-	if len(queue.Data) > sConf.K {
+	if len(queue.Data) >= queue.Capacity {
 		fmt.Println("packet loss")
 		counter.PacketLossNum += 1
 		return
