@@ -20,3 +20,4 @@
 * https://www.cis.nagasaki-u.ac.jp/labs/oguri/CompSimExm.pdf
 * CLI
   * https://zenn.dev/yotto428/scraps/85385949f1304b
+  * https://zenn.dev/tama8021/articles/22_0627_go_cobra_cli#go%E3%81%A7cli%E3%81%A3%E3%81%A6%E3%81%A9%E3%82%93%E3%81%AA%E3%81%97%E3%81%A6%E4%BD%9C%E3%82%8B%E3%81%AE%EF%BC%9F%EF%BC%9F
