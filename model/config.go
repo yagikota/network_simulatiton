@@ -13,7 +13,7 @@ func NewSimulationConfig() *SimulationConfig {
 	conf := &SimulationConfig{
 		Lambda:    0.2, // 0.2
 		Myu:       0.3, // 0.3
-		K:         50,  // 50
+		K:         10,  // 10
 		StartTime: 0.0,
 	}
 	conf.EndTime = conf.StartTime + 1000.0

@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"fmt"
-
 	"github.com/yagikota/network_simulation/model"
 	"github.com/yagikota/network_simulation/utils"
 )
@@ -20,7 +18,6 @@ func ArriveHandler(currentEvent *model.Event, table *model.EventsTable, queue *m
 	}
 
 	if len(queue.Data) >= queue.Capacity {
-		fmt.Println("packet loss")
 		counter.PacketLossNum += 1
 		return
 	}
