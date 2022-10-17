@@ -18,3 +18,5 @@
 * http://www.it-shikaku.jp/top30.php?hidari=01-02-06.php&migi=km01-02.php
 * http://www.bunkyo.ac.jp/~nemoto/lecture/seisan/2001/queue1.pdf
 * https://www.cis.nagasaki-u.ac.jp/labs/oguri/CompSimExm.pdf
+* CLI
+  * https://zenn.dev/yotto428/scraps/85385949f1304b
