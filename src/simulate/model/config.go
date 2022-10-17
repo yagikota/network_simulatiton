@@ -9,13 +9,13 @@ type SimulationConfig struct {
 	EndTime   float64 // The end time of the simulation.
 }
 
-func NewSimulationConfig() *SimulationConfig {
+func NewSimulationConfig(lambda, myu float64, k int, startTime, endTime float64) *SimulationConfig {
 	conf := &SimulationConfig{
-		Lambda:    0.2, // 0.2
-		Myu:       0.3, // 0.3
-		K:         10,  // 10
-		StartTime: 0.0,
+		Lambda:    lambda,
+		Myu:       myu,
+		K:         k,
+		StartTime: startTime,
 	}
-	conf.EndTime = conf.StartTime + 1000.0
+	conf.EndTime = conf.StartTime + endTime
 	return conf
 }

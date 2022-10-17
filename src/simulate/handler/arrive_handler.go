@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/yagikota/network_simulation/model"
-	"github.com/yagikota/network_simulation/utils"
+	"github.com/yagikota/network_simulation/src/simulate/model"
+	"github.com/yagikota/network_simulation/src/simulate/utils"
 )
 
 func ArriveHandler(currentEvent *model.Event, table *model.EventsTable, queue *model.Queue, s *model.Server, sConf *model.SimulationConfig, counter *model.Counter) {
