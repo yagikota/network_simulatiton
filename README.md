@@ -2,13 +2,6 @@
 ## 🗄 About this repository
 情報工学実験2 情報工学ネットワークシミュレーションのソースコード
 
-## 演習課題
-### イベント(事象)駆動型シミュレーションについて説明せよ。
-将来起こるイベントに基づいて、時間をすすめて行うシミュレーション。
-### M/M/1/K待ち行列シミュレータのフローチャートを作成せよ
-
-### シミュレータを自分でコーディングする際に定義した変数表一覧を作成せよ。
-
 ## 📖 References
 * http://www.ieice-hbkb.org/files/05/05gun_01hen_06.pdf
 * https://www.cc.nagasaki-u.ac.jp/sec_online_manual/fcpp/stdlib/stdug/general/11_3.htm
