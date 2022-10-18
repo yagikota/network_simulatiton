@@ -12,14 +12,13 @@ import (
 
 func Simulate(lambda, myu float64, k int, startTime, endTime float64) {
 	rand.Seed(time.Now().UnixNano())
-
 	// ----- BEGIN initialization -----
 	simulationConf := model.NewSimulationConfig(lambda, myu, k, startTime, endTime)
 	// register the first event on table.
 	eventsTable := new(model.EventsTable)
-	firstEvent := model.NewEvent(model.ArrivePacket, 0.0)
+	firstEvent := model.NewEvent(model.ArrivePacket, startTime)
 	eventsTable.Events = append(eventsTable.Events, firstEvent)
-	server := model.NewServer(1)
+	server := model.NewServer(1) // In this time, set 1.
 	queue := model.NewQueue(simulationConf.K - server.Capacity)
 	counter := model.NewCounter()
 	// ----- END initialization -----
@@ -35,7 +34,7 @@ func Simulate(lambda, myu float64, k int, startTime, endTime float64) {
 			return eventsTable.Events[i].StartTime < eventsTable.Events[j].StartTime
 		})
 		currentEvent = eventsTable.Peek()
-
+		// fmt.Println(currentEvent.StartTime)
 		if currentEvent.StartTime > simulationConf.EndTime {
 			break
 		}
@@ -50,16 +49,20 @@ func Simulate(lambda, myu float64, k int, startTime, endTime float64) {
 	// ----- END simulation -----
 
 	// ----- BEGIN report -----
+	fmt.Println("----- Input Params -----")
+	simulationConf.PrintConfInfo()
 	fmt.Println("----- Report -----")
 	tqt := counter.TotalQueueTime
-	l := tqt / currentEvent.StartTime
-	fmt.Println("average packets numbers in queue")
-	fmt.Println(l)
+	simulateTime := currentEvent.StartTime - simulationConf.StartTime
+	l := tqt / simulateTime
+	// fmt.Println("totalQueueTime", tqt)
+	fmt.Println("average packets numbers in queue:", l)
+
 	w := tqt / float64(counter.TotalQueueNum)
-	fmt.Println("average delay of packets in queue")
-	fmt.Println(w)
+	fmt.Println("average delay of packets in queue:", w)
+
 	plr := float64(counter.PacketLossNum) / float64(counter.PacketNum)
-	fmt.Println("packets loss rate")
-	fmt.Println(plr)
+	// fmt.Println("packets", counter.PacketNum)
+	fmt.Println("packets loss rate:", plr)
 	// ----- END report -----
 }

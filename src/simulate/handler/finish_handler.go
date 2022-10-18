@@ -13,7 +13,10 @@ func FinishHandler(currentEvent *model.Event, table *model.EventsTable, queue *m
 
 	// サーバーの状態はそのままにして後続の処理をする
 	event := queue.Peek()
-	// calculate total queue time
-	counter.TotalQueueTime += currentEvent.StartTime - event.StartTime
+	if event != nil {
+		// calculate total queue time
+		counter.TotalQueueTime += currentEvent.StartTime - event.StartTime
+	}
+	// fmt.Println("counter.TotalQueueTime",counter.TotalQueueTime)
 	table.AddEvent(model.FinishService, currentEvent.StartTime+utils.ExpRand(sConf.Lambda))
 }

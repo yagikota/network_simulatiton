@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="95Ddbhb3OlrkEIl0QinA" name="Page-1">
-        <mxGraphModel dx="1121" dy="639" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="605" dy="528" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -19,7 +19,7 @@
                     <mxGeometry x="520" y="280" width="120" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="33" value="終了" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="280" y="500" width="120" height="40" as="geometry"/>
+                    <mxGeometry x="140" y="500" width="120" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="51" value="" style="edgeStyle=none;html=1;strokeColor=default;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
@@ -81,7 +81,7 @@
                     <mxGeometry x="590" y="680" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="98" value="Yes" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="470" y="490" width="60" height="30" as="geometry"/>
+                    <mxGeometry x="470" y="480" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="106" value="" style="edgeStyle=none;html=1;strokeColor=default;" parent="1" target="105" edge="1">
                     <mxGeometry relative="1" as="geometry">
@@ -111,7 +111,7 @@
                 <mxCell id="119" value="" style="edgeStyle=none;html=1;strokeColor=default;" parent="1" source="112" target="118" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="112" value="待ち行列の長さ&amp;gt;=K-サーバーの窓口数" style="rhombus;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
+                <mxCell id="112" value="待ち行列の長さ&amp;gt;=待ち行列のcapacity" style="rhombus;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
                     <mxGeometry x="1030" y="410" width="160" height="70" as="geometry"/>
                 </mxCell>
                 <mxCell id="117" value="パケットロスの回数をカウント" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
@@ -120,7 +120,7 @@
                 <mxCell id="131" value="" style="edgeStyle=none;html=1;strokeColor=default;" parent="1" source="118" target="130" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="118" value="待ち行列にイベント(arrive)追加" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
+                <mxCell id="118" value="待ち行列にイベント(arrive)追加し&lt;br&gt;TotalQueueNum += 1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
                     <mxGeometry x="1050" y="510" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="120" value="Yes" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeColor=none;" parent="1" vertex="1">
@@ -144,8 +144,11 @@
                 <mxCell id="126" value="finishを事象表に追加" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
                     <mxGeometry x="1230" y="400" width="120" height="60" as="geometry"/>
                 </mxCell>
+                <mxCell id="189" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="129" target="188">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
                 <mxCell id="129" value="arrive処理開始" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
-                    <mxGeometry x="1050" y="140" width="120" height="40" as="geometry"/>
+                    <mxGeometry x="1050" y="40" width="120" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="130" value="arrive処理終了" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
                     <mxGeometry x="1050" y="610" width="120" height="40" as="geometry"/>
@@ -209,23 +212,20 @@
                     <mxGeometry x="1070" y="880" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="164" value="finish処理終了" style="ellipse;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
-                    <mxGeometry x="1070" y="1070" width="120" height="40" as="geometry"/>
+                    <mxGeometry x="1070" y="1150" width="120" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="169" value="" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeColor=default;" parent="1" source="172" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1130" y="1040" as="sourcePoint"/>
-                        <mxPoint x="1130" y="1070" as="targetPoint"/>
-                    </mxGeometry>
+                <mxCell id="194" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="172" target="190">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="172" value="finishを事象表に追加" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
+                <mxCell id="172" value="TotalQueueTimeをカウント" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
                     <mxGeometry x="1070" y="970" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="173" value="" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeColor=default;" parent="1" source="158" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1300" y="470" as="sourcePoint"/>
-                        <mxPoint x="1130" y="1050" as="targetPoint"/>
+                        <mxPoint x="1130" y="1140" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="1330" y="1050"/>
+                            <mxPoint x="1330" y="1140"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -235,7 +235,7 @@
                 <mxCell id="175" value="No" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeColor=none;" parent="1" vertex="1">
                     <mxGeometry x="580" y="560" width="60" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="184" value="" style="edgeStyle=none;html=1;strokeColor=default;" parent="1" source="177" target="33" edge="1">
+                <mxCell id="187" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="177" target="185">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="177" value="終了条件満たす" style="rhombus;whiteSpace=wrap;html=1;strokeColor=default;" parent="1" vertex="1">
@@ -260,6 +260,21 @@
                             <mxPoint x="760" y="830"/>
                         </Array>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="186" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="185" target="33">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="185" value="report出力" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="495" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="188" value="packetカウント" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;" vertex="1" parent="1">
+                    <mxGeometry x="1050" y="110" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="191" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="190" target="164">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="190" value="finishを事象表に追加" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;" vertex="1" parent="1">
+                    <mxGeometry x="1070" y="1060" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
