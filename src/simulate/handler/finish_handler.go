@@ -18,5 +18,5 @@ func FinishHandler(currentEvent *model.Event, table *model.EventsTable, queue *m
 		counter.TotalQueueTime += currentEvent.StartTime - event.StartTime
 	}
 	// fmt.Println("counter.TotalQueueTime",counter.TotalQueueTime)
-	table.AddEvent(model.FinishService, currentEvent.StartTime+utils.ExpRand(sConf.Lambda))
+	table.AddEvent(model.FinishService, currentEvent.StartTime+utils.ExpRand(sConf.Myu))
 }

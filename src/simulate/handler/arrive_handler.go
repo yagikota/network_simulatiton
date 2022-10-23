@@ -13,7 +13,7 @@ func ArriveHandler(currentEvent *model.Event, table *model.EventsTable, queue *m
 	if !s.IsBusy() {
 		// make the server busy
 		s.Use(1)
-		table.AddEvent(model.FinishService, currentEvent.StartTime+utils.ExpRand(sConf.Lambda))
+		table.AddEvent(model.FinishService, currentEvent.StartTime+utils.ExpRand(sConf.Myu))
 		return
 	}
 

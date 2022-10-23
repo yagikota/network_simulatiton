@@ -17,7 +17,7 @@ func newSimulateCmd() *cobra.Command {
 		Short: "simulate M/M/1/K queue.",
 		Long: `This CLI simulates M/M/1/K queue.🐶`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			fmt.Println("simulate called")
+			fmt.Println("simulate start!")
 			l, err := cmd.Flags().GetFloat64("lambda")
 			if err != nil {
 				return err
@@ -46,11 +46,11 @@ func newSimulateCmd() *cobra.Command {
 	}
 
 	// TODO: 定数を設定ファイルから読み込む
-	simulateCmd.Flags().Float64P("lambda", "l", 0.2, "average arrival rate of a packet")
-	simulateCmd.Flags().Float64P("myu", "m", 0.3, "average service rate of the server")
-	simulateCmd.Flags().IntP("K", "k", 1, "capacity of service(capacity of queue and server)")
+	simulateCmd.Flags().Float64P("lambda", "l", 0.7, "average arrival rate of a packet")
+	simulateCmd.Flags().Float64P("myu", "m", 1.0, "average service rate of the server")
+	simulateCmd.Flags().IntP("K", "k", 50, "capacity of service(capacity of queue and server)")
 	simulateCmd.Flags().Float64P("start_time", "s", 0.0, "the start time of the simulation.")
-	simulateCmd.Flags().Float64P("end_time", "e", 1000.0, "the end time of the simulation.")
+	simulateCmd.Flags().Float64P("end_time", "e", 10000.0, "the end time of the simulation.")
 
 	return simulateCmd
 }
