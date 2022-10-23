@@ -20,13 +20,13 @@ func Simulate(lambda, myu float64, k int, startTime, endTime float64) {
 	eventsTable.Events = append(eventsTable.Events, firstEvent)
 	server := model.NewServer(1) // In this time, set 1.
 	queue := model.NewQueue(simulationConf.K - server.Capacity)
-	counter := model.NewCounter()
+	counter := model.NewCounter(firstEvent.StartTime)
 	// ----- END initialization -----
 
 	// ----- BEGIN simulation -----
 	var currentEvent *model.Event
 	for {
-		// pop the event of the nearest future
+		// Pop the event of the nearest future from event table.
 		if eventsTable.IsEmpty() {
 			break
 		}
@@ -34,10 +34,15 @@ func Simulate(lambda, myu float64, k int, startTime, endTime float64) {
 			return eventsTable.Events[i].StartTime < eventsTable.Events[j].StartTime
 		})
 		currentEvent = eventsTable.Peek()
-		// fmt.Println(currentEvent.StartTime)
 		if currentEvent.StartTime > simulationConf.EndTime {
 			break
 		}
+
+		// counter handling
+		timeSinceLastEvent := currentEvent.StartTime - counter.LastEventTime
+		counter.LastEventTime = currentEvent.StartTime
+		counter.TotalQueueTime += float64(len(queue.Data)) * timeSinceLastEvent
+		counter.TotalServerTime += float64(server.InUse) * timeSinceLastEvent
 
 		switch currentEvent.EventType {
 		case model.ArrivePacket:
@@ -52,13 +57,12 @@ func Simulate(lambda, myu float64, k int, startTime, endTime float64) {
 	fmt.Println("----- Input Params -----")
 	simulationConf.PrintConfInfo()
 	fmt.Println("----- Report -----")
-	tqt := counter.TotalQueueTime
+	totalTimeInService := counter.TotalQueueTime + counter.TotalServerTime
 	simulateTime := currentEvent.StartTime - simulationConf.StartTime
-	l := tqt / simulateTime
-	// fmt.Println("totalQueueTime", tqt)
+	l := totalTimeInService / simulateTime
 	fmt.Println("average packets numbers in queue:", l)
 
-	w := tqt / float64(counter.TotalQueueNum)
+	w := totalTimeInService / float64(counter.TotalQueueNum)
 	fmt.Println("average delay of packets in queue:", w)
 
 	plr := float64(counter.PacketLossNum) / float64(counter.PacketNum)

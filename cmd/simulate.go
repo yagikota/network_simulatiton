@@ -15,7 +15,7 @@ func newSimulateCmd() *cobra.Command {
 	simulateCmd := &cobra.Command{
 		Use:   "simulate",
 		Short: "simulate M/M/1/K queue.",
-		Long: `This CLI simulates M/M/1/K queue.🐶`,
+		Long:  `This CLI simulates M/M/1/K queue.🐶`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			fmt.Println("simulate start!")
 			l, err := cmd.Flags().GetFloat64("lambda")
