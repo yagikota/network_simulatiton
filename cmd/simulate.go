@@ -49,8 +49,8 @@ func newSimulateCmd() *cobra.Command {
 	simulateCmd.Flags().Float64P("lambda", "l", 0.7, "average arrival rate of a packet")
 	simulateCmd.Flags().Float64P("myu", "m", 1.0, "average service rate of the server")
 	simulateCmd.Flags().IntP("K", "k", 50, "capacity of service(capacity of queue and server)")
-	simulateCmd.Flags().Float64P("start_time", "s", 0.0, "the start time of the simulation.")
-	simulateCmd.Flags().Float64P("end_time", "e", 10000.0, "the end time of the simulation.")
+	simulateCmd.Flags().Float64P("start_time", "s", 0.0, "the start time of the simulation")
+	simulateCmd.Flags().Float64P("end_time", "e", 10000.0, "the end time of the simulation")
 
 	return simulateCmd
 }
