@@ -1,13 +1,23 @@
 package simulate
 
 import (
+	"encoding/csv"
+	"errors"
 	"fmt"
+	"log"
 	"math/rand"
+	"os"
 	"sort"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/yagikota/network_simulation/src/simulate/handler"
 	"github.com/yagikota/network_simulation/src/simulate/model"
+)
+
+const (
+	csvFilePathFromRoot = "./csv_report/report.csv"
 )
 
 func Simulate(lambda, myu float64, k int, startTime, endTime float64) {
@@ -53,20 +63,73 @@ func Simulate(lambda, myu float64, k int, startTime, endTime float64) {
 	}
 	// ----- END simulation -----
 
-	// ----- BEGIN report -----
-	fmt.Println("----- Input Params -----")
-	simulationConf.PrintConfInfo()
-	fmt.Println("----- Report -----")
 	totalTimeInService := counter.TotalQueueTime + counter.TotalServerTime
 	simulateTime := currentEvent.StartTime - simulationConf.StartTime
-	l := totalTimeInService / simulateTime
-	fmt.Println("average packets numbers in queue:", l)
+	averagePackets := totalTimeInService / simulateTime                           // average number of packets in the system
+	averageDelay := totalTimeInService / float64(counter.TotalQueueNum)           // average delay in the system
+	packetLossRate := float64(counter.PacketLossNum) / float64(counter.PacketNum) // packet loos rate
 
-	w := totalTimeInService / float64(counter.TotalQueueNum)
-	fmt.Println("average delay of packets in queue:", w)
-
-	plr := float64(counter.PacketLossNum) / float64(counter.PacketNum)
-	// fmt.Println("packets", counter.PacketNum)
-	fmt.Println("packets loss rate:", plr)
+	// ----- BEGIN report -----
+	printReport(counter, simulationConf, averagePackets, averageDelay, packetLossRate)
 	// ----- END report -----
+
+	// ----- BEGIN export the report to csv -----
+	if err := printCSV(counter, simulationConf, averagePackets, averageDelay, packetLossRate); err != nil {
+		log.Fatal(err)
+	}
+	// ----- END export the report to csv -----
+}
+
+func printReport(counter *model.Counter, conf *model.SimulationConfig, averagePackets, averageDelay, packetLossRate float64) {
+	fmt.Println(strings.Repeat("-", 5), "Input Params", strings.Repeat("-", 5))
+	conf.PrintConfInfo()
+	fmt.Println(strings.Repeat("-", 5), "Report", strings.Repeat("-", 5))
+	fmt.Println("average packets numbers in the system:", averagePackets)
+	fmt.Println("average delay of packets in the system:", averageDelay)
+	fmt.Println("packets loss rate:", packetLossRate)
+}
+
+// https://zenn.dev/hsaki/books/golang-io-package/viewer/file
+func printCSV(counter *model.Counter, conf *model.SimulationConfig, averagePackets, averageDelay, packetLossRate float64) error {
+	var f *os.File
+	if _, err := os.Stat(csvFilePathFromRoot); err == nil {
+		f, err = os.OpenFile(csvFilePathFromRoot, os.O_WRONLY|os.O_APPEND, 0666)
+		if err != nil {
+			return err
+		}
+		log.Println("successfully opened file:", f.Name())
+
+	} else if errors.Is(err, os.ErrNotExist) {
+		f, err = os.Create(csvFilePathFromRoot)
+		if err != nil {
+			return err
+		}
+		// header
+		if _, err := f.WriteString(strings.Join([]string{"lambda", "myu", "K", "L", "W", "Q\n"}, ",")); err != nil {
+			return err
+		}
+		log.Println("successfully created file:", f.Name())
+	}
+	defer func() {
+		err := f.Close()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}()
+
+	w := csv.NewWriter(f)
+	defer w.Flush()
+
+	lambda := fmt.Sprintf("%f", conf.Lambda)
+	myu := fmt.Sprintf("%f", conf.Myu)
+	k := fmt.Sprintf("%d", conf.K)
+	ap := strconv.FormatFloat(averagePackets, 'f', -1, 64)
+	ad := strconv.FormatFloat(averageDelay, 'f', -1, 64)
+	plr := strconv.FormatFloat(packetLossRate, 'f', -1, 64)
+	records := []string{lambda, myu, k, ap, ad, plr}
+	if err := w.Write(records); err != nil {
+		return err
+	}
+
+	return nil
 }
