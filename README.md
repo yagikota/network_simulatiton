@@ -12,6 +12,7 @@
 * http://www.bunkyo.ac.jp/~nemoto/lecture/seisan/2001/queue1.pdf
 * https://www.cis.nagasaki-u.ac.jp/labs/oguri/CompSimExm.pdf
 * https://www.google.com/search?q=mm1k+%E5%BE%85%E3%81%A1%E8%A1%8C%E5%88%97+%E7%90%86%E8%AB%96%E5%80%A4&rlz=1C5CHFA_enJP1015JP1015&sxsrf=ALiCzsYUSgnIPu8j3TEUHsLM-cMcaxGyCA%3A1666036872497&ei=iLRNY8v5HYmnoATz0onwCA&ved=0ahUKEwjL3d7_huj6AhWJE4gKHXNpAo4Q4dUDCA8&uact=5&oq=mm1k+%E5%BE%85%E3%81%A1%E8%A1%8C%E5%88%97+%E7%90%86%E8%AB%96%E5%80%A4&gs_lcp=Cgdnd3Mtd2l6EAMyBwgAEB4QogQyBQgAEKIEMgUIABCiBDIFCAAQogQyBQgAEKIEOgQIIxAnOgUIIRCgAToECCEQFUoECE0YAUoECEEYAEoECEYYAFAAWK4jYMQnaABwAXgAgAGyAYgB-wqSAQMxLjmYAQCgAQHAAQE&sclient=gws-wiz
+* http://www-optima.amp.i.kyoto-u.ac.jp/~takine/tmp/shiryou.pdf
 * CLI
   * https://zenn.dev/yotto428/scraps/85385949f1304b
   * https://zenn.dev/tama8021/articles/22_0627_go_cobra_cli#go%E3%81%A7cli%E3%81%A3%E3%81%A6%E3%81%A9%E3%82%93%E3%81%AA%E3%81%97%E3%81%A6%E4%BD%9C%E3%82%8B%E3%81%AE%EF%BC%9F%EF%BC%9F
@@ -19,4 +20,3 @@
   * https://text.baldanders.info/golang/using-and-testing-cobra/
 * Graph
   * https://github.com/gonum/plot
-  

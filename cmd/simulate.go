@@ -5,7 +5,10 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 
+	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 	"github.com/yagikota/network_simulation/src/simulate"
 )
@@ -45,12 +48,22 @@ func newSimulateCmd() *cobra.Command {
 		},
 	}
 
-	// TODO: 定数を設定ファイルから読み込む
-	simulateCmd.Flags().Float64P("lambda", "l", 0.5, "average arrival rate of a packet")
-	simulateCmd.Flags().Float64P("myu", "m", 1.0, "average service rate of the server")
-	simulateCmd.Flags().IntP("K", "k", 50, "capacity of service(capacity of queue and server)")
-	simulateCmd.Flags().Float64P("start_time", "s", 0.0, "the start time of the simulation")
-	simulateCmd.Flags().Float64P("end_time", "e", 3000.0, "the end time of the simulation")
+	// load default input params from env file
+	err := godotenv.Load(".env")
+	if err != nil {
+		fmt.Printf("could not open env file: %v", err)
+	}
+	l, _ := strconv.ParseFloat(os.Getenv("DEFAULT_LAMBDA"), 64)
+	myu, _ := strconv.ParseFloat(os.Getenv("DEFAULT_MYU"), 64)
+	k, _ := strconv.Atoi(os.Getenv("DEFAULT_K"))
+	startTime, _ := strconv.ParseFloat(os.Getenv("DEFAULT_START_TIME"), 64)
+	endTime, _ := strconv.ParseFloat(os.Getenv("DEFAULT_END_TIME"), 64)
+
+	simulateCmd.Flags().Float64P("lambda", "l", l, "average arrival rate of a packet")
+	simulateCmd.Flags().Float64P("myu", "m", myu, "average service rate of the server")
+	simulateCmd.Flags().IntP("K", "k", k, "capacity of service(capacity of queue and server)")
+	simulateCmd.Flags().Float64P("start_time", "s", startTime, "the start time of the simulation")
+	simulateCmd.Flags().Float64P("end_time", "e", endTime, "the end time of the simulation")
 
 	return simulateCmd
 }
