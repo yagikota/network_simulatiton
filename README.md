@@ -1,6 +1,6 @@
 # network_simulatiton
 ## 🗄 About this repository
-情報工学実験2 情報工学ネットワークシミュレーションのソースコード
+Tool for simulating network using MM1K and MD1K queue.
 
 ## 👟 How to run
 ### install
