@@ -2,7 +2,13 @@
 ## 🗄 About this repository
 情報工学実験2 情報工学ネットワークシミュレーションのソースコード
 
-## How to Run
+## 👟 How to run
+### install
+```shell
+git clone git@github.com:yagikota/network_simulatiton.git
+cd network_simulatiton
+```
+### simulate
 ```shell
 go run main.go simulate -h
 This CLI simulates queue.🐶
