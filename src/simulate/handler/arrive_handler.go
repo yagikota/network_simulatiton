@@ -6,7 +6,7 @@ import (
 )
 
 func ArriveHandler(currentEvent *model.Event, table *model.EventsTable, queue *model.Queue, s *model.Server, sConf *model.SimulationConfig, counter *model.Counter) {
-	counter.PacketNum += 1
+	counter.TotalPacketNum += 1
 	// next arrive event
 	table.AddEvent(model.ArrivePacket, currentEvent.StartTime+utils.ExpRand(sConf.Lambda))
 
@@ -22,5 +22,4 @@ func ArriveHandler(currentEvent *model.Event, table *model.EventsTable, queue *m
 		return
 	}
 	queue.Add(model.ArrivePacket, currentEvent.StartTime)
-	counter.TotalQueueNum += 1
 }

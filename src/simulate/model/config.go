@@ -2,6 +2,13 @@ package model
 
 import "fmt"
 
+type QueueType int
+
+const (
+	MM1K QueueType = iota // 0
+	MD1K                  // 1
+)
+
 // The input parameters for the simulation.
 type SimulationConfig struct {
 	Lambda    float64 // Average arrival rate of a packet.
@@ -9,14 +16,16 @@ type SimulationConfig struct {
 	K         int     // Capacity of service(capacity of queue and server).
 	StartTime float64 // The start time of the simulation.
 	EndTime   float64 // The end time of the simulation.
+	QueueType QueueType
 }
 
-func NewSimulationConfig(lambda, myu float64, k int, startTime, endTime float64) *SimulationConfig {
+func NewSimulationConfig(lambda, myu float64, k int, startTime, endTime float64, queueType int) *SimulationConfig {
 	conf := &SimulationConfig{
 		Lambda:    lambda,
 		Myu:       myu,
 		K:         k,
 		StartTime: startTime,
+		QueueType: QueueType(queueType),
 	}
 	conf.EndTime = conf.StartTime + endTime
 	return conf

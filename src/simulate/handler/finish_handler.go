@@ -13,6 +13,16 @@ func FinishHandler(currentEvent *model.Event, table *model.EventsTable, queue *m
 
 	// queueに入っているeventを取り出してサーバーで処理をする
 	_ = queue.Peek()
-	serverTime := utils.ExpRand(sConf.Myu)
+
+	var serverTime float64
+	switch qt := sConf.QueueType; qt {
+	case model.MM1K:
+		serverTime = utils.ExpRand(sConf.Myu)
+	case model.MD1K:
+		serverTime = 1 / sConf.Myu
+	default:
+		serverTime = utils.ExpRand(sConf.Myu)
+	}
+
 	table.AddEvent(model.FinishService, currentEvent.StartTime+serverTime)
 }

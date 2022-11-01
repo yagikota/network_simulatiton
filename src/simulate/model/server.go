@@ -3,7 +3,7 @@ package model
 // https://github.com/golang/go/blob/152ffca82fa53008bd2872f7163c7a1885da880e/src/database/sql/sql.go#L456
 // https://github.com/golang/go/blob/152ffca82fa53008bd2872f7163c7a1885da880e/src/database/sql/sql.go#L1063
 type Server struct {
-	Capacity int // Maximum capacities the server.
+	Capacity int // Maximum capacities of the server.
 	InUse    int // The number of servers currently in use.
 }
 

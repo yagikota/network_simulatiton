@@ -14,16 +14,17 @@ import (
 
 	"github.com/yagikota/network_simulation/src/simulate/handler"
 	"github.com/yagikota/network_simulation/src/simulate/model"
+	"github.com/yagikota/network_simulation/src/simulate/utils"
 )
 
 const (
 	csvFilePathFromRoot = "./csv_report/report.csv"
 )
 
-func Simulate(lambda, myu float64, k int, startTime, endTime float64) {
+func Simulate(lambda, myu float64, k int, startTime, endTime float64, queueType int) {
 	rand.Seed(time.Now().UnixNano())
 	// ----- BEGIN initialization -----
-	simulationConf := model.NewSimulationConfig(lambda, myu, k, startTime, endTime)
+	simulationConf := model.NewSimulationConfig(lambda, myu, k, startTime, endTime, queueType)
 	// register the first event on table.
 	eventsTable := new(model.EventsTable)
 	firstEvent := model.NewEvent(model.ArrivePacket, startTime)
@@ -65,9 +66,9 @@ func Simulate(lambda, myu float64, k int, startTime, endTime float64) {
 
 	totalTimeInService := counter.TotalQueueTime + counter.TotalServerTime
 	simulateTime := currentEvent.StartTime - simulationConf.StartTime
-	averagePackets := totalTimeInService / simulateTime                           // average number of packets in the system
-	averageDelay := totalTimeInService / float64(counter.TotalQueueNum)           // average delay in the system
-	packetLossRate := float64(counter.PacketLossNum) / float64(counter.PacketNum) // packet loos rate
+	averagePackets := totalTimeInService / simulateTime                                // average number of packets in the system.
+	averageDelay := totalTimeInService / float64(counter.TotalPacketNum)               // average delay in the system.
+	packetLossRate := float64(counter.PacketLossNum) / float64(counter.TotalPacketNum) // packet loss rate.
 
 	// ----- BEGIN report -----
 	printReport(counter, simulationConf, averagePackets, averageDelay, packetLossRate)
@@ -87,6 +88,7 @@ func printReport(counter *model.Counter, conf *model.SimulationConfig, averagePa
 	fmt.Println("average packets numbers in the system:", averagePackets)
 	fmt.Println("average delay of packets in the system:", averageDelay)
 	fmt.Println("packets loss rate:", packetLossRate)
+	fmt.Println()
 }
 
 // https://zenn.dev/hsaki/books/golang-io-package/viewer/file
@@ -105,7 +107,7 @@ func printCSV(counter *model.Counter, conf *model.SimulationConfig, averagePacke
 			return err
 		}
 		// header
-		if _, err := f.WriteString(strings.Join([]string{"lambda", "myu", "K", "L", "W", "Q\n"}, ",")); err != nil {
+		if _, err := f.WriteString(strings.Join([]string{"lambda", "myu", "K", "L", "L(theoretical value)", "W", "W(theoretical value)", "Q", "Q(theoretical value)\n"}, ",")); err != nil {
 			return err
 		}
 		log.Println("successfully created file:", f.Name())
@@ -120,13 +122,17 @@ func printCSV(counter *model.Counter, conf *model.SimulationConfig, averagePacke
 	w := csv.NewWriter(f)
 	defer w.Flush()
 
+	// TODO: 理論値を取り出す関数作る
 	lambda := fmt.Sprintf("%f", conf.Lambda)
 	myu := fmt.Sprintf("%f", conf.Myu)
 	k := fmt.Sprintf("%d", conf.K)
 	ap := strconv.FormatFloat(averagePackets, 'f', -1, 64)
+	theoreticalAP := fmt.Sprintf("%f", utils.MM1KTheoreticalAveragePackets(conf.Lambda, conf.Myu, conf.K))
 	ad := strconv.FormatFloat(averageDelay, 'f', -1, 64)
+	theoreticalAD := fmt.Sprintf("%f", utils.MM1KTheoreticalAverageDelay(conf.Lambda, conf.Myu, conf.K))
 	plr := strconv.FormatFloat(packetLossRate, 'f', -1, 64)
-	records := []string{lambda, myu, k, ap, ad, plr}
+	theoreticalPLR := fmt.Sprintf("%f", utils.MM1KTheoreticalPacketLossRate(conf.Lambda, conf.Myu, conf.K))
+	records := []string{lambda, myu, k, ap, theoreticalAP, ad, theoreticalAD, plr, theoreticalPLR}
 	if err := w.Write(records); err != nil {
 		return err
 	}

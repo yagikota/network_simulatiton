@@ -17,8 +17,8 @@ import (
 func newSimulateCmd() *cobra.Command {
 	simulateCmd := &cobra.Command{
 		Use:   "simulate",
-		Short: "simulate M/M/1/K queue.",
-		Long:  `This CLI simulates M/M/1/K queue.🐶`,
+		Short: "simulate queue.",
+		Long:  `This CLI simulates queue.🐶`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			fmt.Println("simulate start!")
 			l, err := cmd.Flags().GetFloat64("lambda")
@@ -41,8 +41,11 @@ func newSimulateCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-
-			simulate.Simulate(l, m, k, st, et)
+			qt, err := cmd.Flags().GetInt("queue_type")
+			if err != nil {
+				return err
+			}
+			simulate.Simulate(l, m, k, st, et, qt)
 
 			return nil
 		},
@@ -58,12 +61,14 @@ func newSimulateCmd() *cobra.Command {
 	k, _ := strconv.Atoi(os.Getenv("DEFAULT_K"))
 	startTime, _ := strconv.ParseFloat(os.Getenv("DEFAULT_START_TIME"), 64)
 	endTime, _ := strconv.ParseFloat(os.Getenv("DEFAULT_END_TIME"), 64)
+	queueType, _ := strconv.Atoi(os.Getenv("DEFAULT_QUEUE_TYPE"))
 
 	simulateCmd.Flags().Float64P("lambda", "l", l, "average arrival rate of a packet")
 	simulateCmd.Flags().Float64P("myu", "m", myu, "average service rate of the server")
 	simulateCmd.Flags().IntP("K", "k", k, "capacity of service(capacity of queue and server)")
 	simulateCmd.Flags().Float64P("start_time", "s", startTime, "the start time of the simulation")
 	simulateCmd.Flags().Float64P("end_time", "e", endTime, "the end time of the simulation")
+	simulateCmd.Flags().IntP("queue_type", "q", queueType, "the type of queue(MM1K:0, MD1K: 1)")
 
 	return simulateCmd
 }
