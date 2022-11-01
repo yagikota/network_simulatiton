@@ -2,6 +2,24 @@
 ## 🗄 About this repository
 情報工学実験2 情報工学ネットワークシミュレーションのソースコード
 
+## How to Run
+```shell
+go run main.go simulate -h
+This CLI simulates queue.🐶
+
+Usage:
+  network_simulation simulate [flags]
+
+Flags:
+  -k, --K int              capacity of service(capacity of queue and server) (default 50)
+  -e, --end_time float     the end time of the simulation (default 100000)
+  -h, --help               help for simulate
+  -l, --lambda float       average arrival rate of a packet (default 0.5)
+  -m, --myu float          average service rate of the server (default 1)
+  -q, --queue_type int     the type of queue(MM1K:0, MD1K: 1)
+  -s, --start_time float   the start time of the simulation
+```
+
 ## 📖 References
 * http://www.ieice-hbkb.org/files/05/05gun_01hen_06.pdf
 * https://www.cc.nagasaki-u.ac.jp/sec_online_manual/fcpp/stdlib/stdug/general/11_3.htm
